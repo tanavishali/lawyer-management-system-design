@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Management - Legal Case Management System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fade-in 0.3s ease-in-out;
+      }
+      .progress-bar {
+        height: 4px;
+        transition: width 0.3s ease;
+      }
+      /* Modal background */
+      .modal-bg {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Enhanced Navbar -->
+    <nav
+      class="bg-gray-800 text-white p-4 flex items-center justify-between sticky top-0 z-50"
+    >
+      <div class="flex items-center space-x-4">
+        <h2 class="text-2xl font-bold">LegalCase Pro</h2>
+        <button
+          id="menu-toggle"
+          class="lg:hidden p-2 rounded-md hover:bg-gray-700"
+        >
+          <span class="mdi mdi-menu text-2xl"></span>
+        </button>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="relative">
+          <input
+            type="search"
+            placeholder="Search cases..."
+            class="w-64 px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="flex items-center space-x-2 group cursor-pointer">
+          <img
+            src="https://via.placeholder.com/40"
+            alt="Profile"
+            class="w-10 h-10 rounded-full border-2 border-gray-300"
+          />
+          <span class="group-hover:text-blue-300">John Lawyer</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Case Overview -->
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+              Case #04567: Smith vs. Johnson
+            </h1>
+            <div class="flex items-center space-x-4 mt-2">
+              <span
+                class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
+              >
+                Active
+              </span>
+              <span class="text-gray-500">Filed: 2023-10-15</span>
+              <span class="text-gray-500">Next Hearing: 2023-11-20</span>
+            </div>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <button
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+            >
+              <span class="mdi mdi-plus"></span>
+              <span>New Case</span>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <h3 class="text-sm font-medium text-blue-600">Primary Client</h3>
+            <p class="mt-1 font-medium">John Smith</p>
+            <p class="text-sm text-gray-600">john@example.com</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg">
+            <h3 class="text-sm font-medium text-green-600">Opposing Party</h3>
+            <p class="mt-1 font-medium">Johnson Corp</p>
+            <p class="text-sm text-gray-600">legal@johnson.com</p>
+          </div>
+          <div class="p-4 bg-purple-50 rounded-lg">
+            <h3 class="text-sm font-medium text-purple-600">Case Type</h3>
+            <p class="mt-1 font-medium">Civil Litigation</p>
+            <p class="text-sm text-gray-600">Contract Dispute</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Management Tabs -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Tasks Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Case Tasks</h2>
+            <button
+              onclick="openTaskModal()"
+              class="p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <span class="mdi mdi-plus text-blue-600"></span>
+            </button>
+          </div>
+          <div id="tasks-container" class="space-y-4">
+            <!-- Tasks will be injected here dynamically -->
+          </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Case Documents</h2>
+            <button
+              onclick="openDocumentModal()"
+              class="p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <span class="mdi mdi-upload text-blue-600"></span>
+            </button>
+          </div>
+          <div id="documents-container" class="space-y-3">
+            <!-- Documents will be injected here dynamically -->
+          </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h2 class="text-xl font-semibold mb-4">Case Timeline</h2>
+          <div id="timeline-container" class="space-y-4">
+            <!-- Timeline items will be injected here dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes Section -->
+      <div class="bg-white rounded-xl shadow-lg p-6 mt-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Case Notes</h2>
+          <button
+            onclick="openNoteModal()"
+            class="p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <span class="mdi mdi-plus text-blue-600"></span>
+          </button>
+        </div>
+        <div id="notes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Notes will be injected here dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Task Modal -->
+    <div
+      id="task-modal"
+      class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-xl p-6 w-full max-w-md animate-fade-in">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">New Task</h2>
+          <button onclick="closeTaskModal()">
+            <span class="mdi mdi-close text-gray-600 text-2xl"></span>
+          </button>
+        </div>
+        <form id="task-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Task Title</label
+            >
+            <input
+              type="text"
+              id="task-title"
+              class="mt-1 block w-full border rounded-lg p-2"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Due Date</label
+            >
+            <input
+              type="date"
+              id="task-due"
+              class="mt-1 block w-full border rounded-lg p-2"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Status</label
+            >
+            <select
+              id="task-status"
+              class="mt-1 block w-full border rounded-lg p-2"
+              required
+            >
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Progress (%)</label
+            >
+            <input
+              type="number"
+              id="task-progress"
+              class="mt-1 block w-full border rounded-lg p-2"
+              min="0"
+              max="100"
+              value="0"
+              required
+            />
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button
+              type="button"
+              onclick="closeTaskModal()"
+              class="px-4 py-2 border rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            >
+              Add Task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div
+      id="document-modal"
+      class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-xl p-6 w-full max-w-md animate-fade-in">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Upload Document</h2>
+          <button onclick="closeDocumentModal()">
+            <span class="mdi mdi-close text-gray-600 text-2xl"></span>
+          </button>
+        </div>
+        <form id="document-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Document Title</label
+            >
+            <input
+              type="text"
+              id="doc-title"
+              class="mt-1 block w-full border rounded-lg p-2"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Select File</label
+            >
+            <input
+              type="file"
+              id="doc-file"
+              class="mt-1 block w-full"
+              accept=".pdf,.docx,.txt"
+              required
+            />
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button
+              type="button"
+              onclick="closeDocumentModal()"
+              class="px-4 py-2 border rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            >
+              Upload
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div
+      id="note-modal"
+      class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-xl p-6 w-full max-w-md animate-fade-in">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Add Note</h2>
+          <button onclick="closeNoteModal()">
+            <span class="mdi mdi-close text-gray-600 text-2xl"></span>
+          </button>
+        </div>
+        <form id="note-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Note Content</label
+            >
+            <textarea
+              id="note-content"
+              class="mt-1 block w-full border rounded-lg p-2"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button
+              type="button"
+              onclick="closeNoteModal()"
+              class="px-4 py-2 border rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            >
+              Add Note
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      /****************************
+       * Data Arrays (Simulated)  *
+       ****************************/
+      let tasksData = [];
+      let documentsData = [];
+      let notesData = [];
+      let timelineData = [
+        {
+          icon: "mdi-calendar-check",
+          color: "bg-blue-100",
+          text: "Initial Filing",
+          date: "2023-10-15",
+        },
+        {
+          icon: "mdi-comment-text-outline",
+          color: "bg-green-100",
+          text: "Added new note",
+          date: "2023-10-18",
+        },
+      ];
+
+      /**************************************
+       * Functions to Render UI Components  *
+       **************************************/
+      function renderTasks() {
+        const container = document.getElementById("tasks-container");
+        container.innerHTML = "";
+        tasksData.forEach((task, index) => {
+          container.innerHTML += `
+            <div class="p-4 bg-gray-50 rounded-lg">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-medium">${task.title}</h3>
+                  <p class="text-sm text-gray-500">Due: ${task.due}</p>
+                </div>
+                <span class="px-2 py-1 ${
+                  task.status === "In Progress"
+                    ? "bg-yellow-100 text-yellow-600"
+                    : task.status === "Completed"
+                    ? "bg-green-100 text-green-600"
+                    : "bg-gray-100 text-gray-600"
+                } text-sm rounded-full">
+                  ${task.status}
+                </span>
+              </div>
+              <div class="mt-2 relative pt-2">
+                <div class="progress-bar bg-blue-600" style="width: ${
+                  task.progress
+                }%"></div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function renderDocuments() {
+        const container = document.getElementById("documents-container");
+        container.innerHTML = "";
+        documentsData.forEach((doc, index) => {
+          container.innerHTML += `
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="mdi mdi-file-pdf text-red-500 text-2xl"></span>
+                <div>
+                  <p class="font-medium">${doc.title}</p>
+                  <p class="text-sm text-gray-500">Uploaded: ${doc.date}</p>
+                </div>
+              </div>
+              <button class="p-2 hover:bg-gray-200 rounded-lg">
+                <span class="mdi mdi-download text-gray-600"></span>
+              </button>
+            </div>
+          `;
+        });
+      }
+
+      function renderTimeline() {
+        const container = document.getElementById("timeline-container");
+        container.innerHTML = "";
+        timelineData.forEach((item) => {
+          container.innerHTML += `
+            <div class="flex items-start space-x-3">
+              <div class="w-8 h-8 ${item.color} rounded-full flex items-center justify-center">
+                <span class="mdi ${item.icon} text-blue-600"></span>
+              </div>
+              <div>
+                <p class="font-medium">${item.text}</p>
+                <p class="text-sm text-gray-500">${item.date}</p>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function renderNotes() {
+        const container = document.getElementById("notes-container");
+        container.innerHTML = "";
+        notesData.forEach((note) => {
+          container.innerHTML += `
+            <div class="p-4 bg-gray-50 rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium">${note.author}</span>
+                <span class="text-sm text-gray-500">${note.date}</span>
+              </div>
+              <p class="text-gray-700">${note.content}</p>
+            </div>
+          `;
+        });
+      }
+
+      /**************************************
+       * Modal Open/Close Functions         *
+       **************************************/
+      // Task Modal
+      function openTaskModal() {
+        document.getElementById("task-modal").classList.remove("hidden");
+      }
+      function closeTaskModal() {
+        document.getElementById("task-modal").classList.add("hidden");
+        document.getElementById("task-form").reset();
+      }
+
+      // Document Modal
+      function openDocumentModal() {
+        document.getElementById("document-modal").classList.remove("hidden");
+      }
+      function closeDocumentModal() {
+        document.getElementById("document-modal").classList.add("hidden");
+        document.getElementById("document-form").reset();
+      }
+
+      // Note Modal
+      function openNoteModal() {
+        document.getElementById("note-modal").classList.remove("hidden");
+      }
+      function closeNoteModal() {
+        document.getElementById("note-modal").classList.add("hidden");
+        document.getElementById("note-form").reset();
+      }
+
+      /*****************************************
+       * Form Submission Event Listeners       *
+       *****************************************/
+      // Task Form Submission
+      document
+        .getElementById("task-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const title = document.getElementById("task-title").value;
+          const due = document.getElementById("task-due").value;
+          const status = document.getElementById("task-status").value;
+          const progress = document.getElementById("task-progress").value;
+          tasksData.push({ title, due, status, progress });
+          renderTasks();
+          closeTaskModal();
+        });
+
+      // Document Form Submission
+      document
+        .getElementById("document-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const title = document.getElementById("doc-title").value;
+          // Simulate file upload and set current date as upload date
+          const date = new Date().toISOString().split("T")[0];
+          documentsData.push({ title, date });
+          renderDocuments();
+          closeDocumentModal();
+        });
+
+      // Note Form Submission
+      document
+        .getElementById("note-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const content = document.getElementById("note-content").value;
+          const author = "John Lawyer"; // Could be dynamic based on user profile
+          const date = new Date().toISOString().split("T")[0];
+          notesData.push({ content, author, date });
+          // Also update timeline with note addition
+          timelineData.push({
+            icon: "mdi-note-outline",
+            color: "bg-purple-100",
+            text: "Note Added",
+            date,
+          });
+          renderNotes();
+          renderTimeline();
+          closeNoteModal();
+        });
+
+      // Initial rendering of static timeline
+      renderTimeline();
+    </script>
+  </body>
+</html>

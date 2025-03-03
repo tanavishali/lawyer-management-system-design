@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Preview - Legal Case Management System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      .sidebar-link {
+        transition: all 0.3s ease;
+      }
+      .sidebar-link:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        padding-left: 1.5rem;
+      }
+      .sidebar-link.active {
+        border-left: 4px solid #3b82f6;
+        background-color: rgba(59, 130, 246, 0.1);
+        padding-left: 1rem;
+      }
+      .hover\:bg-blue-100:hover {
+        background-color: #ebf8ff;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar Navigation -->
+    <aside
+      class="w-64 bg-blue-600 text-white min-h-screen fixed left-0 top-0 z-30 shadow-xl"
+    >
+      <div class="p-4 flex items-center space-x-2 border-b border-blue-500">
+        <span class="mdi mdi-gavel text-3xl"></span>
+        <h1 class="text-xl font-bold">LegalCase Pro</h1>
+      </div>
+      <nav class="mt-6 px-4">
+        <a
+          href="dashboard.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-view-dashboard"></span>
+          <span>Dashboard</span>
+        </a>
+        <a
+          href="clients.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-account-group"></span>
+          <span>Clients</span>
+        </a>
+        <a
+          href="cases.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-briefcase"></span>
+          <span>Cases</span>
+        </a>
+        <a
+          href="documents.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-file-document-multiple"></span>
+          <span>Documents</span>
+        </a>
+        <a
+          href="schedule.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-calendar-clock"></span>
+          <span>Schedule</span>
+        </a>
+        <a
+          href="billing.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-currency-usd"></span>
+          <span>Billing</span>
+        </a>
+      </nav>
+      <div
+        class="absolute bottom-0 left-0 right-0 p-4 border-t border-blue-500"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            src="https://via.placeholder.com/40"
+            alt="Profile"
+            class="w-10 h-10 rounded-full border-2 border-white"
+          />
+          <div>
+            <p class="font-medium">John Lawyer</p>
+            <p class="text-sm text-blue-200">Administrator</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 flex flex-col p-6">
+      <!-- Header -->
+      <header
+        class="bg-white shadow-md p-4 flex items-center justify-between mb-6"
+      >
+        <h2 class="text-xl font-bold text-gray-800" id="clientHeader">
+          Client Preview
+        </h2>
+        <div>
+          <a href="clients.html" class="text-blue-500 hover:underline mr-4">
+            Back to Clients
+          </a>
+          <span
+            id="editModeButton"
+            class="text-blue-500 hover:underline cursor-pointer hidden"
+          >
+            Edit Mode
+          </span>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="bg-white rounded-xl shadow-md p-6 animate-fade-in">
+        <!-- Client Info -->
+        <div class="flex flex-col md:flex-row md:space-x-6 items-start mb-8">
+          <img
+            id="clientImage"
+            src="https://via.placeholder.com/80"
+            alt="Client"
+            class="w-20 h-20 rounded-full border border-gray-200 mb-4 md:mb-0"
+          />
+          <div>
+            <h3 class="text-2xl font-bold mb-1" id="clientName">Client Name</h3>
+            <p class="text-gray-600 mb-1" id="clientEmail">Email:</p>
+            <p class="text-gray-600 mb-1" id="clientPhone">Phone:</p>
+            <p class="text-gray-600 mb-1" id="clientType">Type:</p>
+            <p class="text-gray-600 mb-1" id="clientStatus">Status:</p>
+            <p class="text-gray-600" id="clientId">ID:</p>
+          </div>
+        </div>
+
+        <!-- Upload Documents -->
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-3">Documents</h4>
+          <div class="flex items-center space-x-2 mb-3">
+            <input
+              type="file"
+              id="documentFile"
+              class="p-2 border border-gray-300 rounded"
+              accept="application/pdf, image/*"
+            />
+            <button
+              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              onclick="addDocument()"
+            >
+              Upload
+            </button>
+          </div>
+          <div id="documentsList" class="space-y-2 text-sm text-gray-700">
+            <!-- Documents will appear here -->
+          </div>
+        </div>
+
+        <!-- Remarks -->
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-3">Remarks</h4>
+          <div class="flex items-center space-x-2 mb-3">
+            <input
+              type="text"
+              id="remarkInput"
+              placeholder="Enter a remark..."
+              class="p-2 border border-gray-300 rounded w-64"
+            />
+            <button
+              class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+              onclick="addRemark()"
+            >
+              Add Remark
+            </button>
+          </div>
+          <ul id="remarksList" class="list-disc ml-6 text-sm text-gray-700">
+            <!-- Remarks will appear here -->
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let currentClient = null; // The client object
+      let currentClientIndex = -1; // The index of the client in localStorage array
+      let mode = "view"; // "view" or "edit"
+
+      function loadClientPreview() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientId = urlParams.get("id");
+        mode = urlParams.get("mode") || "view";
+
+        const clients = JSON.parse(localStorage.getItem("clients")) || [];
+        // Find the client by ID
+        currentClientIndex = clients.findIndex((c) => c.id === clientId);
+        if (currentClientIndex === -1) {
+          alert("Client not found!");
+          window.location.href = "clients.html";
+          return;
+        }
+        currentClient = clients[currentClientIndex];
+
+        // Update the header
+        document.getElementById("clientHeader").textContent =
+          mode === "edit" ? "Edit Client" : "Client Preview";
+
+        // Show/hide "Edit Mode" label
+        const editModeButton = document.getElementById("editModeButton");
+        if (mode === "edit") {
+          editModeButton.classList.remove("hidden");
+        }
+
+        // Populate UI
+        document.getElementById("clientImage").src =
+          currentClient.image || "https://via.placeholder.com/80";
+        document.getElementById("clientName").textContent = currentClient.name;
+        document.getElementById("clientEmail").textContent =
+          "Email: " + currentClient.email;
+        document.getElementById("clientPhone").textContent =
+          "Phone: " + currentClient.phone;
+        document.getElementById("clientType").textContent =
+          "Type: " + currentClient.type;
+        document.getElementById("clientStatus").textContent =
+          "Status: " + currentClient.status;
+        document.getElementById("clientId").textContent =
+          "ID: " + currentClient.id;
+
+        // Documents
+        if (!currentClient.documents) currentClient.documents = [];
+        renderDocuments();
+
+        // Remarks
+        if (!currentClient.remarks) currentClient.remarks = [];
+        renderRemarks();
+      }
+
+      function renderDocuments() {
+        const docsList = document.getElementById("documentsList");
+        docsList.innerHTML = "";
+        if (currentClient.documents.length === 0) {
+          docsList.innerHTML = `<p class="text-gray-500">No documents uploaded yet.</p>`;
+        } else {
+          currentClient.documents.forEach((doc, idx) => {
+            const docItem = document.createElement("div");
+            docItem.className = "flex items-center space-x-2";
+            docItem.innerHTML = `
+            <a href="${doc.data}" target="_blank" class="text-blue-600 underline">
+              ${doc.name}
+            </a>
+            <button
+              class="text-red-600 hover:bg-red-100 rounded px-2"
+              onclick="deleteDocument(${idx})"
+            >
+              <span class="mdi mdi-delete"></span>
+            </button>
+          `;
+            docsList.appendChild(docItem);
+          });
+        }
+      }
+
+      function addDocument() {
+        const fileInput = document.getElementById("documentFile");
+        if (!fileInput.files || fileInput.files.length === 0) {
+          alert("Please select a file to upload!");
+          return;
+        }
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const docObject = {
+            name: file.name,
+            data: e.target.result, // base64 data
+          };
+          currentClient.documents.push(docObject);
+          saveClient();
+          renderDocuments();
+          fileInput.value = "";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function deleteDocument(docIndex) {
+        currentClient.documents.splice(docIndex, 1);
+        saveClient();
+        renderDocuments();
+      }
+
+      function renderRemarks() {
+        const remarksList = document.getElementById("remarksList");
+        remarksList.innerHTML = "";
+        if (currentClient.remarks.length === 0) {
+          remarksList.innerHTML = `<p class="text-gray-500">No remarks yet.</p>`;
+        } else {
+          currentClient.remarks.forEach((remark, idx) => {
+            const li = document.createElement("li");
+            li.className = "mb-1 flex items-center space-x-2";
+            li.innerHTML = `
+            <span>${remark}</span>
+            <button
+              class="text-red-600 hover:bg-red-100 rounded px-2 text-sm"
+              onclick="deleteRemark(${idx})"
+            >
+              <span class="mdi mdi-delete"></span>
+            </button>
+          `;
+            remarksList.appendChild(li);
+          });
+        }
+      }
+
+      function addRemark() {
+        const remarkInput = document.getElementById("remarkInput");
+        const remark = remarkInput.value.trim();
+        if (!remark) {
+          alert("Please enter a remark.");
+          return;
+        }
+        currentClient.remarks.push(remark);
+        saveClient();
+        renderRemarks();
+        remarkInput.value = "";
+      }
+
+      function deleteRemark(remarkIndex) {
+        currentClient.remarks.splice(remarkIndex, 1);
+        saveClient();
+        renderRemarks();
+      }
+
+      function saveClient() {
+        const clients = JSON.parse(localStorage.getItem("clients")) || [];
+        if (currentClientIndex >= 0) {
+          clients[currentClientIndex] = currentClient;
+        }
+        localStorage.setItem("clients", JSON.stringify(clients));
+      }
+
+      document.addEventListener("DOMContentLoaded", loadClientPreview);
+    </script>
+  </body>
+</html>

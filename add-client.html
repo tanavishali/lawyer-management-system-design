@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Client - Legal Case Management System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      .sidebar-link {
+        transition: all 0.3s ease;
+      }
+      .sidebar-link:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        padding-left: 1.5rem;
+      }
+      .sidebar-link.active {
+        border-left: 4px solid #3b82f6;
+        background-color: rgba(59, 130, 246, 0.1);
+        padding-left: 1rem;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar Navigation (same as other pages) -->
+    <aside
+      class="w-64 bg-blue-600 text-white min-h-screen fixed left-0 top-0 z-30 shadow-xl"
+    >
+      <div class="p-4 flex items-center space-x-2 border-b border-blue-500">
+        <span class="mdi mdi-gavel text-3xl"></span>
+        <h1 class="text-xl font-bold">LegalCase Pro</h1>
+      </div>
+      <nav class="mt-6 px-4">
+        <a
+          href="dashboard.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-view-dashboard"></span>
+          <span>Dashboard</span>
+        </a>
+        <a
+          href="clients.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-account-group"></span>
+          <span>Clients</span>
+        </a>
+        <a
+          href="cases.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-briefcase"></span>
+          <span>Cases</span>
+        </a>
+        <a
+          href="documents.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-file-document-multiple"></span>
+          <span>Documents</span>
+        </a>
+        <a
+          href="schedule.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-calendar-clock"></span>
+          <span>Schedule</span>
+        </a>
+        <a
+          href="billing.html"
+          class="sidebar-link flex items-center space-x-3 p-3 rounded-lg mb-2"
+        >
+          <span class="mdi mdi-currency-usd"></span>
+          <span>Billing</span>
+        </a>
+      </nav>
+      <div
+        class="absolute bottom-0 left-0 right-0 p-4 border-t border-blue-500"
+      >
+        <div class="flex items-center space-x-3">
+          <img
+            src="https://via.placeholder.com/40"
+            alt="Profile"
+            class="w-10 h-10 rounded-full border-2 border-white"
+          />
+          <div>
+            <p class="font-medium">John Lawyer</p>
+            <p class="text-sm text-blue-200">Administrator</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content: Add Client Form -->
+    <main class="ml-64 flex-1 flex flex-col p-6">
+      <header
+        class="bg-white shadow-md p-4 flex items-center justify-between mb-6"
+      >
+        <h2 class="text-xl font-bold text-gray-800">Add New Client</h2>
+        <a href="clients.html" class="text-blue-500 hover:underline"
+          >Back to Clients</a
+        >
+      </header>
+      <div
+        class="bg-white rounded-xl shadow-md p-6 animate-fade-in max-w-xl mx-auto"
+      >
+        <form id="clientForm">
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2" for="clientName"
+              >Client Name</label
+            >
+            <input
+              type="text"
+              id="clientName"
+              name="clientName"
+              placeholder="Enter client name"
+              class="w-full p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2" for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter email address"
+              class="w-full p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2" for="phone">Phone</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Enter phone number"
+              class="w-full p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2" for="clientType"
+              >Client Type</label
+            >
+            <select
+              id="clientType"
+              name="clientType"
+              class="w-full p-2 border border-gray-300 rounded"
+              required
+            >
+              <option value="">Select type</option>
+              <option value="Individual">Individual</option>
+              <option value="Corporate">Corporate</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2" for="status">Status</label>
+            <select
+              id="status"
+              name="status"
+              class="w-full p-2 border border-gray-300 rounded"
+              required
+            >
+              <option value="">Select status</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label class="block text-gray-700 mb-2" for="profilePicture"
+              >Profile Picture</label
+            >
+            <input
+              type="file"
+              id="profilePicture"
+              name="profilePicture"
+              class="w-full p-2 border border-gray-300 rounded"
+              accept="image/*"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Add Client
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      document
+        .getElementById("clientForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          let clients = JSON.parse(localStorage.getItem("clients")) || [];
+          const name = document.getElementById("clientName").value;
+          const email = document.getElementById("email").value;
+          const phone = document.getElementById("phone").value;
+          const type = document.getElementById("clientType").value;
+          const status = document.getElementById("status").value;
+          const fileInput = document.getElementById("profilePicture");
+
+          // Generate a unique ID for the client
+          const clientId = "IDX-" + Date.now();
+
+          // Function to add client and redirect
+          const addClientData = (imageData) => {
+            const newClient = {
+              name: name,
+              email: email,
+              phone: phone,
+              type: type,
+              status: status,
+              image: imageData,
+              id: clientId,
+            };
+            clients.push(newClient);
+            localStorage.setItem("clients", JSON.stringify(clients));
+            window.location.href = "clients.html";
+          };
+
+          if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              addClientData(event.target.result);
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+          } else {
+            addClientData(""); // No image provided
+          }
+        });
+    </script>
+  </body>
+</html>
